@@ -11,5 +11,5 @@ export const handleUserSignUp = async (req: Request, res: Response, next: NextFu
   const user = await userSignUp(bodyToUser(req.body));
   
   //성공 응답 보내기
-  res.status(StatusCodes.OK).json({ result: user });
+  res.status(StatusCodes.CREATED).json({ result: user });
 };
