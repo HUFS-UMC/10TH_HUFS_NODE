@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id              Int                 @id @default(autoincrement())
+  email           String              @unique @db.VarChar(255)
+  passwordHash    String              @map("password_hash") @db.VarChar(255)
+  name            String              @db.VarChar(100)
+  gender          String              @db.VarChar(10)
+  birth           DateTime?           @db.Date
+  address         String?             @db.VarChar(255)
+  detailAddress   String?             @map("detail_address") @db.VarChar(255)
+  phoneNumber     String              @map("phone_number") @db.VarChar(30)
+  points          Int                 @default(0)
+  favorCategories UserFavorCategory[]
+  reviews         Review[]
+  userMissions    UserMission[]
+
+  @@map("user")
+}
+
+model FoodCategory {
+  id              Int                 @id @default(autoincrement())
+  name            String              @db.VarChar(100)
+  favorCategories UserFavorCategory[]
+
+  @@map("food_category")
+}
+
+model UserFavorCategory {
+  id             Int          @id @default(autoincrement())
+  foodCategoryId Int          @map("food_category_id")
+  userId         Int          @map("user_id")
+  foodCategory   FoodCategory @relation(fields: [foodCategoryId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
+
+  @@unique([foodCategoryId, userId])
+  @@map("user_favor_category")
+}
+
+model Region {
+  id     Int     @id @default(autoincrement())
+  name   String  @db.VarChar(100)
+  stores Store[]
+
+  @@map("region")
+}
+
+model Store {
+  id          Int       @id @default(autoincrement())
+  regionId    Int       @map("region_id")
+  name        String    @db.VarChar(100)
+  address     String    @db.VarChar(255)
+  category    String?   @db.VarChar(100)
+  phoneNumber String?   @map("phone_number") @db.VarChar(30)
+  region      Region    @relation(fields: [regionId], references: [id])
+  reviews     Review[]
+  missions    Mission[]
+
+  @@map("store")
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  storeId   Int      @map("store_id")
+  userId    Int      @map("user_id")
+  contents  String?  @db.Text
+  rating    Int?
+  createdAt DateTime @default(now()) @map("created_at")
+  store     Store    @relation(fields: [storeId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("review")
+}
+
+model Mission {
+  id           Int           @id @default(autoincrement())
+  storeId      Int           @map("store_id")
+  point        Int
+  dueDate      DateTime      @map("due_date") @db.Date
+  description  String        @db.Text
+  store        Store         @relation(fields: [storeId], references: [id])
+  userMissions UserMission[]
+
+  @@map("mission")
+}
+
+model UserMission {
+  id          Int      @id @default(autoincrement())
+  missionId   Int      @map("mission_id")
+  userId      Int      @map("user_id")
+  isCompleted Boolean  @default(false) @map("is_completed")
+  challengedAt DateTime @default(now()) @map("challenged_at")
+  mission     Mission  @relation(fields: [missionId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@unique([missionId, userId])
+  @@map("user_mission")
+}

@@ -37,11 +37,11 @@ export const responseFromUser = ({ user, preferences }: { user: any; preferences
     gender: user.gender,
     birth: user.birth,
     address: user.address,
-    detailAddress: user.detail_address,
-    phoneNumber: user.phone_number,
+    detailAddress: user.detailAddress,
+    phoneNumber: user.phoneNumber,
     preferences: preferences.map((preference) => ({
-      id: preference.food_category_id,
-      name: preference.name,
+      id: preference.foodCategoryId,
+      name: preference.foodCategory.name,
     })),
   };
 };
