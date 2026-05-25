@@ -1,7 +1,11 @@
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { StatusCodes } from "http-status-codes";
+import swaggerUi from "swagger-ui-express";
 import { handleUserSignUp } from "./modules/users/controllers/user.controller.js";
 import { getCurrentUser, parseNumberParam } from "./modules/common/request.js";
 import {
@@ -23,6 +27,9 @@ dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 8080;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const swaggerPath = path.join(__dirname, "../public/swagger.json");
 
 const getPage = (req: Request) => {
   const page = Number(req.query.page ?? 1);
@@ -53,6 +60,11 @@ app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+if (fs.existsSync(swaggerPath)) {
+  const swaggerDocument = JSON.parse(fs.readFileSync(swaggerPath, "utf-8"));
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+}
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World! This is TypeScript Server!");

@@ -1,0 +1,26 @@
+{
+  "entryFile": "src/index.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/modules/**/*.controller.ts"],
+  "spec": {
+    "outputDirectory": "public",
+    "specVersion": 3,
+    "specFileBaseName": "swagger",
+    "info": {
+      "title": "UMC 10th Node API",
+      "version": "1.0.0",
+      "description": "TSOA 데코레이터와 주석으로 생성한 API 문서입니다."
+    },
+    "securityDefinitions": {
+      "bearerAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "예시: Bearer 1"
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "src/generated/tsoa"
+  }
+}

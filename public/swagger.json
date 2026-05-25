@@ -1,0 +1,1167 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"PreferenceResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SignupResponse": {
+				"properties": {
+					"result": {
+						"properties": {
+							"preferences": {
+								"items": {
+									"$ref": "#/components/schemas/PreferenceResponse"
+								},
+								"type": "array"
+							},
+							"phoneNumber": {
+								"type": "string"
+							},
+							"detailAddress": {
+								"type": "string"
+							},
+							"address": {
+								"type": "string"
+							},
+							"birth": {
+								"type": "string"
+							},
+							"gender": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"email": {
+								"type": "string"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"preferences",
+							"phoneNumber",
+							"birth",
+							"gender",
+							"name",
+							"email",
+							"id"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"result"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ErrorResponse": {
+				"properties": {
+					"message": {
+						"type": "string",
+						"description": "실패 이유"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserSignUpRequest": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"gender": {
+						"type": "string"
+					},
+					"birth": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"address": {
+						"type": "string"
+					},
+					"detailAddress": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					},
+					"preferences": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"email",
+					"password",
+					"name",
+					"gender",
+					"birth",
+					"phoneNumber",
+					"preferences"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HomeResponse": {
+				"properties": {
+					"myPoints": {
+						"type": "number",
+						"format": "double",
+						"description": "현재 사용자의 보유 포인트"
+					},
+					"recommendedStores": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array",
+						"description": "추천 가게 이름 목록"
+					}
+				},
+				"required": [
+					"myPoints",
+					"recommendedStores"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MyPageResponse": {
+				"properties": {
+					"phoneNumber": {
+						"type": "string"
+					},
+					"points": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"phoneNumber",
+					"points"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"StoreResponse": {
+				"properties": {
+					"storeId": {
+						"type": "number",
+						"format": "double"
+					},
+					"regionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"phoneNumber": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"storeId",
+					"regionId",
+					"name",
+					"address"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"StoreCreateRequest": {
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "가게 이름"
+					},
+					"address": {
+						"type": "string",
+						"description": "가게 주소"
+					},
+					"category": {
+						"type": "string",
+						"description": "가게 카테고리"
+					},
+					"phoneNumber": {
+						"type": "string",
+						"description": "가게 전화번호"
+					}
+				},
+				"required": [
+					"name",
+					"address"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ReviewResponse": {
+				"properties": {
+					"reviewId": {
+						"type": "number",
+						"format": "double"
+					},
+					"storeId": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"storeName": {
+						"type": "string"
+					},
+					"contents": {
+						"type": "string"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double"
+					},
+					"createdAt": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"reviewId",
+					"storeId",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ReviewCreateRequest": {
+				"properties": {
+					"contents": {
+						"type": "string",
+						"description": "리뷰 내용"
+					},
+					"rating": {
+						"type": "number",
+						"format": "double",
+						"description": "별점"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MissionResponse": {
+				"properties": {
+					"missionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"storeId": {
+						"type": "number",
+						"format": "double"
+					},
+					"storeName": {
+						"type": "string"
+					},
+					"point": {
+						"type": "number",
+						"format": "double"
+					},
+					"dueDate": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"isCompleted": {
+						"type": "number",
+						"enum": [
+							0,
+							1
+						],
+						"description": "0은 진행중, 1은 완료"
+					},
+					"challengedAt": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"missionId",
+					"storeId",
+					"point",
+					"dueDate",
+					"description",
+					"isCompleted"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MissionCreateRequest": {
+				"properties": {
+					"point": {
+						"type": "number",
+						"format": "double",
+						"description": "지급 포인트"
+					},
+					"dueDate": {
+						"type": "string",
+						"description": "마감일. 예시: 2026-05-31"
+					},
+					"description": {
+						"type": "string",
+						"description": "미션 내용"
+					}
+				},
+				"required": [
+					"point",
+					"dueDate",
+					"description"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserMissionResponse": {
+				"properties": {
+					"userMissionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"missionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"storeId": {
+						"type": "number",
+						"format": "double"
+					},
+					"userId": {
+						"type": "number",
+						"format": "double"
+					},
+					"isCompleted": {
+						"type": "number",
+						"enum": [
+							0,
+							1
+						],
+						"description": "0은 진행중, 1은 완료"
+					},
+					"challengedAt": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"userMissionId",
+					"missionId",
+					"storeId",
+					"userId",
+					"isCompleted",
+					"challengedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CompleteMissionResponse": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"missionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"isCompleted": {
+						"type": "number",
+						"enum": [
+							0,
+							1
+						],
+						"description": "0은 진행중, 1은 완료"
+					}
+				},
+				"required": [
+					"message",
+					"missionId",
+					"isCompleted"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "apiKey",
+				"name": "Authorization",
+				"in": "header",
+				"description": "예시: Bearer 1"
+			}
+		}
+	},
+	"info": {
+		"title": "node_project",
+		"version": "1.0.0",
+		"description": "UMC 10th Node.js Project",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/api/users/signup": {
+			"post": {
+				"operationId": "Signup",
+				"responses": {
+					"201": {
+						"description": "회원가입 성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SignupResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "이미 존재하는 이메일 등 서버에서 처리하지 못한 오류",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "새로운 사용자를 가입시킵니다.\n가입 요청에는 Authorization 헤더가 필요하지 않습니다.",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserSignUpRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/users/signup": {
+			"post": {
+				"operationId": "SignupV1",
+				"responses": {
+					"201": {
+						"description": "회원가입 성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SignupResponse"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "이미 존재하는 이메일 등 서버에서 처리하지 못한 오류",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "워크북 호환용 v1 회원가입 API입니다.\n요청과 응답 형식은 /api/users/signup과 같습니다.",
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserSignUpRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/home": {
+			"get": {
+				"operationId": "GetHome",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HomeResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "홈 화면에 보여줄 내 포인트와 추천 가게 목록을 조회합니다.\nregion 쿼리를 주면 해당 지역 이름을 포함한 가게만 추천합니다.",
+				"tags": [
+					"Home"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "Authorization",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "region",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/users/me": {
+			"get": {
+				"operationId": "GetMyPage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MyPageResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하는 유저가 없습니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "현재 로그인한 사용자의 마이페이지 정보를 조회합니다.",
+				"tags": [
+					"Users"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "Authorization",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/regions/{regionId}/stores": {
+			"post": {
+				"operationId": "CreateStore",
+				"responses": {
+					"201": {
+						"description": "가게 추가 성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/StoreResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하지 않는 지역입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "특정 지역에 새로운 가게를 추가합니다.",
+				"tags": [
+					"Stores"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "regionId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "header",
+						"name": "Authorization",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/StoreCreateRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/stores/{storeId}/reviews": {
+			"post": {
+				"operationId": "CreateReview",
+				"responses": {
+					"201": {
+						"description": "리뷰 작성 성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ReviewResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하지 않는 가게이거나 유저입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "특정 가게에 리뷰를 작성합니다.",
+				"tags": [
+					"Reviews"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "storeId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "header",
+						"name": "Authorization",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReviewCreateRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/users/me/reviews": {
+			"get": {
+				"operationId": "GetMyReviews",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ReviewResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하는 유저가 없습니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "현재 사용자가 작성한 리뷰 목록을 페이지 단위로 조회합니다.",
+				"tags": [
+					"Reviews"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "Authorization",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"default": 1,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": {
+							"default": 10,
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/api/stores/{storeId}/missions": {
+			"post": {
+				"operationId": "CreateMission",
+				"responses": {
+					"201": {
+						"description": "미션 추가 성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MissionResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하지 않는 가게입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "특정 가게에 새로운 미션을 추가합니다.",
+				"tags": [
+					"Missions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "storeId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "header",
+						"name": "Authorization",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MissionCreateRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetStoreMissions",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/MissionResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하지 않는 가게입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "특정 가게에 등록된 미션 목록을 페이지 단위로 조회합니다.",
+				"tags": [
+					"Missions"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "storeId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"default": 1,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": {
+							"default": 10,
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/api/missions/{missionId}/challenge": {
+			"post": {
+				"operationId": "ChallengeMission",
+				"responses": {
+					"201": {
+						"description": "미션 도전 성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserMissionResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하지 않는 미션이거나 유저입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "이미 도전 중인 미션입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "현재 사용자가 특정 미션에 도전합니다.\n이미 도전 중인 미션이면 409를 반환합니다.",
+				"tags": [
+					"Missions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "missionId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "header",
+						"name": "Authorization",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/api/users/me/missions": {
+			"get": {
+				"operationId": "GetMyMissions",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/MissionResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "isCompleted는 0 또는 1이어야 합니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하는 유저가 없습니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "현재 사용자의 진행중 또는 완료 미션 목록을 조회합니다.\nisCompleted는 0 또는 1만 사용할 수 있습니다.",
+				"tags": [
+					"Missions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "isCompleted",
+						"required": true,
+						"schema": {
+							"type": "number",
+							"enum": [
+								0,
+								1
+							]
+						}
+					},
+					{
+						"in": "header",
+						"name": "Authorization",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"default": 1,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": {
+							"default": 10,
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/api/missions/{missionId}/complete": {
+			"patch": {
+				"operationId": "CompleteMission",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CompleteMissionResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "도전 중인 미션이 아닙니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "현재 사용자가 도전 중인 미션을 완료 처리합니다.",
+				"tags": [
+					"Missions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "missionId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "header",
+						"name": "Authorization",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
