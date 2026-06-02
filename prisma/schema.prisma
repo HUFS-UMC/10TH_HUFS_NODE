@@ -15,13 +15,14 @@ datasource db {
 model User {
   id              Int                 @id @default(autoincrement())
   email           String              @unique @db.VarChar(255)
-  passwordHash    String              @map("password_hash") @db.VarChar(255)
+  passwordHash    String?             @map("password_hash") @db.VarChar(255)
+  signupMethod    String              @default("EMAIL") @map("signup_method") @db.VarChar(20)
   name            String              @db.VarChar(100)
-  gender          String              @db.VarChar(10)
+  gender          String?             @db.VarChar(10)
   birth           DateTime?           @db.Date
   address         String?             @db.VarChar(255)
   detailAddress   String?             @map("detail_address") @db.VarChar(255)
-  phoneNumber     String              @map("phone_number") @db.VarChar(30)
+  phoneNumber     String?             @map("phone_number") @db.VarChar(30)
   points          Int                 @default(0)
   favorCategories UserFavorCategory[]
   reviews         Review[]

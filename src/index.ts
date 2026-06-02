@@ -6,7 +6,17 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { StatusCodes } from "http-status-codes";
 import swaggerUi from "swagger-ui-express";
-import { handleUserSignUp } from "./modules/users/controllers/user.controller.js";
+import { requireLogin } from "./modules/auth/middlewares/auth.middleware.js";
+import {
+  handleGitHubCallback,
+  redirectToGitHubLogin,
+  refreshToken,
+} from "./modules/auth/controllers/auth.controller.js";
+import {
+  handleEmailLogin,
+  handleUpdateMe,
+  handleUserSignUp,
+} from "./modules/users/controllers/user.controller.js";
 import { getCurrentUser, parseNumberParam } from "./modules/common/request.js";
 import {
   addStore,
@@ -72,8 +82,12 @@ app.get("/", (req: Request, res: Response) => {
 
 app.post("/api/users/signup", handleUserSignUp);
 app.post("/api/v1/users/signup", handleUserSignUp);
+app.post("/api/users/login", handleEmailLogin);
+app.post("/api/auth/refresh", refreshToken);
+app.get("/api/auth/github", redirectToGitHubLogin);
+app.get("/api/auth/github/callback", handleGitHubCallback);
 
-app.get("/api/home", async (req: Request, res: Response) => {
+app.get("/api/home", requireLogin, async (req: Request, res: Response) => {
   const user = await getCurrentUser(req);
   const region = typeof req.query.region === "string" ? req.query.region : undefined;
   const stores = await getRecommendedStores(region);
@@ -84,7 +98,7 @@ app.get("/api/home", async (req: Request, res: Response) => {
   });
 });
 
-app.get("/api/users/me", async (req: Request, res: Response) => {
+app.get("/api/users/me", requireLogin, async (req: Request, res: Response) => {
   const user = await getCurrentUser(req);
 
   if (!user) {
@@ -98,7 +112,9 @@ app.get("/api/users/me", async (req: Request, res: Response) => {
   });
 });
 
-app.post("/api/regions/:regionId/stores", async (req: Request, res: Response) => {
+app.patch("/api/users/me", requireLogin, handleUpdateMe);
+
+app.post("/api/regions/:regionId/stores", requireLogin, async (req: Request, res: Response) => {
   const regionId = parseNumberParam(req.params.regionId);
 
   if (!regionId || !(await getRegion(regionId))) {
@@ -124,7 +140,7 @@ app.post("/api/regions/:regionId/stores", async (req: Request, res: Response) =>
   });
 });
 
-app.post("/api/stores/:storeId/reviews", async (req: Request, res: Response) => {
+app.post("/api/stores/:storeId/reviews", requireLogin, async (req: Request, res: Response) => {
   const storeId = parseNumberParam(req.params.storeId);
   const user = await getCurrentUser(req);
 
@@ -155,7 +171,7 @@ app.post("/api/stores/:storeId/reviews", async (req: Request, res: Response) => 
   });
 });
 
-app.get("/api/users/me/reviews", async (req: Request, res: Response) => {
+app.get("/api/users/me/reviews", requireLogin, async (req: Request, res: Response) => {
   const user = await getCurrentUser(req);
 
   if (!user) {
@@ -177,7 +193,7 @@ app.get("/api/users/me/reviews", async (req: Request, res: Response) => {
   );
 });
 
-app.post("/api/stores/:storeId/missions", async (req: Request, res: Response) => {
+app.post("/api/stores/:storeId/missions", requireLogin, async (req: Request, res: Response) => {
   const storeId = parseNumberParam(req.params.storeId);
 
   if (!storeId || !(await getStore(storeId))) {
@@ -208,7 +224,7 @@ app.get("/api/stores/:storeId/missions", async (req: Request, res: Response) => 
   res.json(missions.map((mission) => toMissionResponse(mission)));
 });
 
-app.post("/api/missions/:missionId/challenge", async (req: Request, res: Response) => {
+app.post("/api/missions/:missionId/challenge", requireLogin, async (req: Request, res: Response) => {
   const missionId = parseNumberParam(req.params.missionId);
   const user = await getCurrentUser(req);
 
@@ -244,7 +260,7 @@ app.post("/api/missions/:missionId/challenge", async (req: Request, res: Respons
   });
 });
 
-app.get("/api/users/me/missions", async (req: Request, res: Response) => {
+app.get("/api/users/me/missions", requireLogin, async (req: Request, res: Response) => {
   const user = await getCurrentUser(req);
   const isCompleted = Number(req.query.isCompleted);
 
@@ -274,7 +290,7 @@ app.get("/api/users/me/missions", async (req: Request, res: Response) => {
   );
 });
 
-app.patch("/api/missions/:missionId/complete", async (req: Request, res: Response) => {
+app.patch("/api/missions/:missionId/complete", requireLogin, async (req: Request, res: Response) => {
   const missionId = parseNumberParam(req.params.missionId);
   const user = await getCurrentUser(req);
 
@@ -295,6 +311,16 @@ app.patch("/api/missions/:missionId/complete", async (req: Request, res: Respons
     missionId: userMission.missionId,
     isCompleted: userMission.isCompleted ? 1 : 0,
   });
+});
+
+app.use((error: unknown, _req: Request, res: Response, _next: unknown) => {
+  const message = error instanceof Error ? error.message : "서버 오류가 발생했습니다.";
+  const status =
+    message.includes("이미 존재하는 이메일") || message.includes("로그인을 사용할 수 없습니다")
+      ? StatusCodes.CONFLICT
+      : StatusCodes.INTERNAL_SERVER_ERROR;
+
+  res.status(status).json({ message });
 });
 
 app.listen(port, () => {

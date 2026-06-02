@@ -11,6 +11,16 @@ export interface UserSignUpRequest {
   preferences: number[];
 }
 
+export interface UserUpdateRequest {
+  name?: string;
+  gender?: string | null;
+  birth?: Date;
+  address?: string;
+  detailAddress?: string;
+  phoneNumber?: string | null;
+  preferences?: number[];
+}
+
 // 2. 요청받은 데이터를 우리 시스템에 맞는 데이터로 변환해주는 함수입니다. 
 export const bodyToUser = (body: UserSignUpRequest) => {
   const birth = new Date(body.birth); //날짜 변환
@@ -28,6 +38,16 @@ export const bodyToUser = (body: UserSignUpRequest) => {
   };
 };
 
+export const bodyToUserUpdate = (body: UserUpdateRequest) => ({
+  name: body.name,
+  gender: body.gender,
+  birth: body.birth ? new Date(body.birth) : undefined,
+  address: body.address,
+  detailAddress: body.detailAddress,
+  phoneNumber: body.phoneNumber,
+  preferences: body.preferences,
+});
+
 // 3. DB에서 받아온 유저 정보와 선호 카테고리를 클라이언트 응답 형식으로 변환합니다.
 export const responseFromUser = ({ user, preferences }: { user: any; preferences: any[] }) => {
   return {
@@ -39,6 +59,7 @@ export const responseFromUser = ({ user, preferences }: { user: any; preferences
     address: user.address,
     detailAddress: user.detailAddress,
     phoneNumber: user.phoneNumber,
+    signupMethod: user.signupMethod,
     preferences: preferences.map((preference) => ({
       id: preference.foodCategoryId,
       name: preference.foodCategory.name,
